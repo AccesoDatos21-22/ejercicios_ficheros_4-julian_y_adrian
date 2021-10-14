@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import modelo.Medicamento;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,6 +47,10 @@ class Main {
 	private static final String DOM_XML_FILE = "xml/EmpleadosDOM.xml";
 
 	public static void main(String[] args) {
+		Medicamento m1=new Medicamento("pepe",20,211202,10,20,5);
+		Medicamento m2=new Medicamento("dfrf",100,211202,10,20,5);
+		System.out.println(m1.toString());
+		System.out.println(m2.toString());
 		// ejemploJaxb();
 		// ejemploEscribirDOM();
 		// ejemploLeerDOM();
