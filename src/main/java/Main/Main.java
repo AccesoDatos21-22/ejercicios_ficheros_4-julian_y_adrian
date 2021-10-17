@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import dao.MedicamentoAleatorio;
 import modelo.Medicamento;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -47,10 +48,23 @@ class Main {
 	private static final String DOM_XML_FILE = "xml/EmpleadosDOM.xml";
 
 	public static void main(String[] args) {
-		Medicamento m1=new Medicamento("pepe",20,211202,10,20);
+		Medicamento m1=new Medicamento("pepe",20.0,211202,10,20);
 		Medicamento m2=new Medicamento("dfrf",100,211202,10,20);
-		System.out.println(m1.toString());
-		System.out.println(m2.toString());
+		MedicamentoAleatorio aleatorio = new MedicamentoAleatorio();
+		aleatorio.guardar(m1);
+		aleatorio.guardar(m2);
+		aleatorio.leerTodos().forEach(System.out::println);
+		aleatorio.borrar(m1);
+		System.out.println(".........................");
+		aleatorio.leerTodos().forEach(System.out::println);
+		System.out.println(",,,,,,,,,,,,,,,");
+		try {
+			System.out.println(aleatorio.buscar("dfrf").toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//		System.out.println(m1.toString());
+//		System.out.println(m2.toString());
 		// ejemploJaxb();
 		// ejemploEscribirDOM();
 		// ejemploLeerDOM();

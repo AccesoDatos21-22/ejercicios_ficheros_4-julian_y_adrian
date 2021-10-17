@@ -3,9 +3,8 @@ package modelo;
 public class Medicamento {
 
     public final static float IVA = 0.04f;
-
+    private static int cont = 0;
     StringBuilder sb;
-    private static int cont = 1;
     private String nombre; // tama�o 30, 60 bytes
     private double precio; // 8 bytes
     private int cod; // 4 bytes
@@ -14,17 +13,34 @@ public class Medicamento {
     private int stockMinimo; // 4 bytes
     private int codProveedor; // 4 bytes
 
+    public Medicamento(String nombre, double precio, int stock, int stockMaximo, int stockMinimo, int cod, int codProveedor) {
+        sb = new StringBuilder(nombre);
+        sb.setLength(50);
+        this.nombre = sb.toString();
+        this.precio = precio;
+        this.cod = cod;
+        this.stock = stock;
+        this.stockMaximo = stockMaximo;
+        this.stockMinimo = stockMinimo;
+        this.codProveedor = codProveedor;
+    }
+
     public Medicamento(String nombre, double precio, int stock, int stockMaximo, int stockMinimo) {
         super();
         sb = new StringBuilder(nombre);
         sb.setLength(50);
         this.nombre = sb.toString();
         this.precio = precio;
-        this.cod = cont++;
+        this.cod = cont;
         this.stock = stock;
         this.stockMaximo = stockMaximo;
         this.stockMinimo = stockMinimo;
-        this.codProveedor = cont++;
+        this.codProveedor = cont;
+        cont++;
+    }
+
+    public static float getIva() {
+        return IVA;
     }
 
     public String getNombre() {
@@ -83,13 +99,9 @@ public class Medicamento {
         this.codProveedor = codProveedor;
     }
 
-    public static float getIva() {
-        return IVA;
-    }
-
     @Override
     public String toString() {
-        return "codigo= " + cod + "\n" + "nombre= " + nombre + "\n" + "precio= " + precio + "\n" + "stock= " + stock + "\n" + "Proveedor= " + codProveedor;
+        return "codigo= " + cod + "\n" + "nombre= " + nombre.trim().replaceAll("\u0000", "") + "\n" + "precio= " + precio + "\n" + "stock= " + stock + "\n" + "Proveedor= " + codProveedor;
     }
 
 
