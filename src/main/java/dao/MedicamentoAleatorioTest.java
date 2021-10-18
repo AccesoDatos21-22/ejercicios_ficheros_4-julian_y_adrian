@@ -1,6 +1,7 @@
 package dao;
 
 import modelo.Medicamento;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -66,10 +67,32 @@ class MedicamentoAleatorioTest {
 
     @Test
     void borrar() {
+        try {
+            Files.createFile(Path.of(FICHEROTEST));
+            try (RandomAccessFile fichero = new RandomAccessFile(FICHEROTEST, "rw")) {
+                fichero.seek((long) medicamento.getCod() * MedicamentoAleatorio.TAM_REGISTRO);
+                fichero.writeChars(medicamento.getNombre());
+                fichero.writeDouble(medicamento.getPrecio());
+                fichero.writeInt(medicamento.getCod());
+                fichero.writeInt(medicamento.getStock());
+                fichero.writeInt(medicamento.getStockMaximo());
+                fichero.writeInt(medicamento.getStockMinimo());
+                fichero.writeInt(medicamento.getCodProveedor());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            borrarTest(medicamento);
+            var x = leerTodosTest();
+            Files.deleteIfExists(Path.of(FICHEROTEST));
+            Assertions.assertTrue(x.size() == 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
-    public List<Medicamento> leerTodosTest() {
+    private List<Medicamento> leerTodosTest() {
         List<Medicamento> medicamentos = new ArrayList<>();
         int posicionactual = 0;
         byte[] nombreB = new byte[MedicamentoAleatorio.TAM_NOMBRE * 2];
@@ -102,5 +125,20 @@ class MedicamentoAleatorioTest {
             e.printStackTrace();
         }
         return medicamentos;
+    }
+
+    private boolean borrarTest(Medicamento medicamento2) {
+        var medicamentos = leerTodosTest();
+        medicamentos.removeIf(a -> a.getCod()==(medicamento2.getCod()));
+        try {
+            Files.deleteIfExists(Path.of(FICHEROTEST));
+            Files.createFile(Path.of(FICHEROTEST));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (Medicamento medicamento1 : medicamentos) {
+            medicamentoAleatorio.guardar(medicamento1);
+        }
+        return true;
     }
 }
