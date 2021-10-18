@@ -1,13 +1,13 @@
 package modelo;
 
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.*;
 
 import java.io.Serializable;
 
-@XmlRootElement(name="Pokemon")
-@XmlType(propOrder = {"nombre","nivel","vida","ataque","defensa","ataqueEspecial","defensaEspecial","velocidad"})
+@XmlRootElement(name = "Pokemon")
+@XmlType(propOrder = {"nombre", "nivel", "vida", "ataque", "defensa", "ataqueEspecial", "defensaEspecial", "velocidad"})
+@XmlAccessorType(XmlAccessType.PROPERTY)
+
 public class Pokemon implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,6 @@ public class Pokemon implements Serializable {
         return nombre;
     }
 
-    @XmlElement
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -49,7 +48,6 @@ public class Pokemon implements Serializable {
         return nivel;
     }
 
-    @XmlElement
     public void setNivel(int nivel) {
         this.nivel = nivel;
     }
@@ -58,7 +56,6 @@ public class Pokemon implements Serializable {
         return vida;
     }
 
-    @XmlElement
     public void setVida(int vida) {
         this.vida = vida;
     }
@@ -67,7 +64,6 @@ public class Pokemon implements Serializable {
         return ataque;
     }
 
-    @XmlElement
     public void setAtaque(int ataque) {
         this.ataque = ataque;
     }
@@ -76,7 +72,6 @@ public class Pokemon implements Serializable {
         return defensa;
     }
 
-    @XmlElement
     public void setDefensa(int defensa) {
         this.defensa = defensa;
     }
@@ -85,7 +80,6 @@ public class Pokemon implements Serializable {
         return ataqueEspecial;
     }
 
-    @XmlElement
     public void setAtaqueEspecial(int ataqueEspecial) {
         this.ataqueEspecial = ataqueEspecial;
     }
@@ -94,7 +88,6 @@ public class Pokemon implements Serializable {
         return defensaEspecial;
     }
 
-    @XmlElement
     public void setDefensaEspecial(int defensaEspecial) {
         this.defensaEspecial = defensaEspecial;
     }
@@ -103,7 +96,7 @@ public class Pokemon implements Serializable {
         return velocidad;
     }
 
-    @XmlElement
+
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
     }

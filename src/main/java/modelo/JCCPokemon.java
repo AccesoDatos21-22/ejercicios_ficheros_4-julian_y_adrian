@@ -3,11 +3,13 @@ package modelo;
 import jakarta.xml.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @XmlType(propOrder = {"pokemones", "fechaLanzamiento", "numCartas"})
 @XmlRootElement(name = "JCCPokemon")
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class JCCPokemon implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,7 +24,7 @@ public class JCCPokemon implements Serializable {
     }
 
     public JCCPokemon() {
-        this.pokemones = List.of(new Pokemon(), new Pokemon(), new Pokemon(), new Pokemon(), new Pokemon());
+        this.pokemones = new ArrayList<>();
         this.fechaLanzamiento = new Date();
         this.numCartas = 0;
     }
