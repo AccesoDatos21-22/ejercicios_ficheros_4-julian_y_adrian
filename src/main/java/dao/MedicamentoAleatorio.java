@@ -83,7 +83,6 @@ public class MedicamentoAleatorio implements MedicamentoDAO {
         try (RandomAccessFile fichero = new RandomAccessFile(RUTA_FICHERO_MEDICAMENTOS, "r")) {
             while (fichero.length() > (long) posicionactual * TAM_REGISTRO) {
                 fichero.seek((long) posicionactual * TAM_REGISTRO);
-
                 fichero.readFully(nombreB);
                 nombre = new String(nombreB);
                 precio = fichero.readDouble();

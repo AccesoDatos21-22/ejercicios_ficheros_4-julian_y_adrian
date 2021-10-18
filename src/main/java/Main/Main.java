@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,8 +23,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import dao.JCCPokemonJAXB;
 import dao.MedicamentoAleatorio;
-import modelo.Medicamento;
+import modelo.*;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,8 +40,6 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-import modelo.Empleado;
-import modelo.Empresa;
 
 class Main {
 
@@ -48,28 +48,36 @@ class Main {
 	private static final String DOM_XML_FILE = "xml/EmpleadosDOM.xml";
 
 	public static void main(String[] args) {
-		Medicamento m1=new Medicamento("pepe",20.0,211202,10,20);
-		Medicamento m2=new Medicamento("dfrf",100,211202,10,20);
-		MedicamentoAleatorio aleatorio = new MedicamentoAleatorio();
-		aleatorio.guardar(m1);
-		aleatorio.guardar(m2);
-		aleatorio.leerTodos().forEach(System.out::println);
-		aleatorio.borrar(m1);
-		System.out.println(".........................");
-		aleatorio.leerTodos().forEach(System.out::println);
-		System.out.println(",,,,,,,,,,,,,,,");
-		try {
-			System.out.println(aleatorio.buscar("dfrf").toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		Medicamento m1=new Medicamento("pepe",20.0,211202,10,20);
+//		Medicamento m2=new Medicamento("dfrf",100,211202,10,20);
+//		MedicamentoAleatorio aleatorio = new MedicamentoAleatorio();
+//		aleatorio.guardar(m1);
+//		aleatorio.guardar(m2);
+//		aleatorio.leerTodos().forEach(System.out::println);
+//		aleatorio.borrar(m1);
+//		System.out.println(".........................");
+//		aleatorio.leerTodos().forEach(System.out::println);
+//		System.out.println(",,,,,,,,,,,,,,,");
+//		try {
+//			System.out.println(aleatorio.buscar("dfrf").toString());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
+		List<Pokemon> x = new ArrayList<>();
+		JCCPokemon jccPokemon = new JCCPokemon();
+		JCCPokemonJAXB j1 = new JCCPokemonJAXB();
+		j1.guardar(jccPokemon);
+
+		JCCPokemon jccPokemon2 = j1.leer();
+
 //		System.out.println(m1.toString());
 //		System.out.println(m2.toString());
-		// ejemploJaxb();
-		// ejemploEscribirDOM();
-		// ejemploLeerDOM();
-		// ejemploEscribirXSTREAM();
-		// ejemploLeerXSTREAM();
+//		 ejemploJaxb();
+//		 ejemploEscribirDOM();
+//		 ejemploLeerDOM();
+//		 ejemploEscribirXSTREAM();
+//		 ejemploLeerXSTREAM();
 	}
 
 	private static void ejemploEscribirXSTREAM() {
