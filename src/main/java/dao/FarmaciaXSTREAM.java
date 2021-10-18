@@ -27,7 +27,7 @@ public class FarmaciaXSTREAM implements FarmaciaDAO{
 		Farmacia f1 = new Farmacia();
 		try {
 			XStream xstream = new XStream();
-			ArrayList<Medicamento> medicamentos = new ArrayList<Medicamento>(farmacia.leerTodos());
+			ArrayList<Medicamento> medicamentos = new ArrayList<>(farmacia.leerTodos());
 			xstream.alias("Farmacia", Farmacia.class);
 			xstream.alias("Medicamento", Medicamento.class);
 			xstream.addImplicitCollection(Medicamento.class, "Medicamento");
@@ -47,8 +47,10 @@ public class FarmaciaXSTREAM implements FarmaciaDAO{
 		
 		return null;
 	}
+
 	public Medicamento leerMedicamento(String rutaMedicamento) {
 		Farmacia f1=new Farmacia();
+		ArrayList<Medicamento> medicamentos = new ArrayList<>();
 		try {
 			Class<?>[] classes = new Class[]{Farmacia.class, Medicamento.class};
 			XStream xstream = new XStream();
@@ -56,9 +58,10 @@ public class FarmaciaXSTREAM implements FarmaciaDAO{
 			xstream.alias("Medicamento", Medicamento.class);
 			xstream.addImplicitCollection(Farmacia.class, "Farmacia");
 
-			f1 = (Farmacia) xstream
+
+			medicamentos = (ArrayList<Medicamento>) xstream
 					.fromXML(new FileInputStream(rutaMedicamento));
-			for (Medicamento e : f1.leerTodos()) {
+			for (Medicamento e : medicamentos) {
 				System.out.println(e);
 			}
 		} catch (FileNotFoundException e) {

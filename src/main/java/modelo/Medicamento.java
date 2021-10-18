@@ -6,11 +6,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "Medicamento")
-@XmlType(propOrder = {"nombre","precio","stock","stockMaximo","stockMinimo"})
+@XmlType(propOrder = {"nombre", "precio", "stock", "stockMaximo", "stockMinimo"})
 @XmlAccessorType(XmlAccessType.PROPERTY)
 
 public class Medicamento {
-    public Medicamento(){}
     public final static float IVA = 0.04f;
     private static int cont = 0;
     StringBuilder sb;
@@ -21,6 +20,9 @@ public class Medicamento {
     private int stockMaximo; // 4 bytes
     private int stockMinimo; // 4 bytes
     private int codProveedor; // 4 bytes
+
+    public Medicamento() {
+    }
 
     public Medicamento(String nombre, double precio, int stock, int stockMaximo, int stockMinimo, int cod, int codProveedor) {
         sb = new StringBuilder(nombre);
