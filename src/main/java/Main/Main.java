@@ -24,6 +24,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import dao.FarmaciaDOM;
+import dao.FarmaciaXSTREAM;
 import dao.MedicamentoAleatorio;
 import modelo.Farmacia;
 import modelo.Medicamento;
@@ -48,6 +49,7 @@ class Main {
 
     private static final String JAXB_XML_FILE = "xml/EmpresaJAXB.xml";
     private static final String XSTREAM_XML_FILE = "xml/EmpresaXTREAM.xml";
+    private static final String XSTREAM2_XML_FILE = "xml/MedicamentosXTREAM.xml";
     private static final String DOM_XML_FILE = "xml/EmpleadosDOM.xml";
     private static final String DOM1_XML_FILE = "xml/MedicamentosDOM.xml";
 
@@ -70,16 +72,19 @@ class Main {
         Farmacia f1= new Farmacia();
         f1.guardar(m1);
         f1.guardar(m2);
-        FarmaciaDOM fdom=new FarmaciaDOM();
-        fdom.guardar(f1);
-        fdom.leer(Path.of(DOM1_XML_FILE));
+        //FarmaciaDOM fdom=new FarmaciaDOM();
+        //fdom.guardar(f1);
+        //fdom.leer(Path.of(DOM1_XML_FILE));
         //System.out.println(m1.toString());
         //System.out.println(m2.toString());
         // ejemploJaxb();
         //ejemploEscribirDOM();
         //ejemploLeerDOM();
-        // ejemploEscribirXSTREAM();
-        // ejemploLeerXSTREAM();
+        //ejemploEscribirXSTREAM();
+        //ejemploLeerXSTREAM();
+        FarmaciaXSTREAM fx=new FarmaciaXSTREAM();
+        fx.guardar(f1);
+        fx.leerMedicamento(XSTREAM2_XML_FILE);
     }
 
     private static void ejemploEscribirXSTREAM() {

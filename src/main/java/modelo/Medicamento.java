@@ -1,7 +1,16 @@
 package modelo;
 
-public class Medicamento {
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
+@XmlRootElement(name = "Medicamento")
+@XmlType(propOrder = {"nombre","precio","stock","stockMaximo","stockMinimo"})
+@XmlAccessorType(XmlAccessType.PROPERTY)
+
+public class Medicamento {
+    public Medicamento(){}
     public final static float IVA = 0.04f;
     private static int cont = 0;
     StringBuilder sb;
