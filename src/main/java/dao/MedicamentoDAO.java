@@ -10,7 +10,7 @@ public interface MedicamentoDAO {
 	
 	public boolean guardar(Medicamento medicamento);
 	
-	public Medicamento buscar(String nombre);
+	public Medicamento buscar(String nombre) throws Exception;
 
 	public boolean actualizar(Medicamento medicamento);
 	
