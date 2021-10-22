@@ -24,6 +24,8 @@ import dao.FarmaciaDOM;
 import dao.FarmaciaXSTREAM;
 import dao.MedicamentoAleatorio;
 import modelo.Farmacia;
+import modelo.Marvel.Marvel;
+import modelo.Marvel.ResultsItem;
 import modelo.Medicamento;
 import modelo.Tiempo.Tiempo;
 import modelo.TiempoXml.Weatherdata;
@@ -84,6 +86,7 @@ class Main {
         //ejemploLeerDOM();
         //ejemploEscribirXSTREAM();
         //ejemploLeerXSTREAM();
+        leerMarvel();
         try {
             //Ejercicio 7
             OkHttpClient okHttp = new OkHttpClient();
@@ -91,7 +94,7 @@ class Main {
             Request request2 = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&mode=xml&appid=479092b77bcf850403cb2aeb1a302425").build();
             Response response = okHttp.newCall(request).execute();
             Response response2 = okHttp.newCall(request2).execute();
-            InputStream inputStream = response.body().byteStream();
+            InputStream inputStream = response2.body().byteStream();
             JAXBContext jaxbContext = JAXBContext.newInstance(Weatherdata.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             Weatherdata weatherdata = (Weatherdata) unmarshaller.unmarshal(inputStream);
@@ -111,6 +114,24 @@ class Main {
 //        FarmaciaXSTREAM fx=new FarmaciaXSTREAM();
 //        fx.guardar(f1);
 //        fx.leerMedicamento(XSTREAM2_XML_FILE);
+    }
+
+    private static void leerMarvel() {
+        try {
+            OkHttpClient okHttpClient = new OkHttpClient();
+            Request request = new Request.Builder().url("https://gateway.marvel.com/v1/public/characters?ts=1&name=Iron%20Man&apikey=4ad7fd50f7f028b3f6f75045c3f53e60&hash=e8898161bd736e5c8b517cbbdf5267af").build();
+            Response marvel = okHttpClient.newCall(request).execute();
+            String Iron = marvel.body().string();
+            Gson gson=new Gson();
+            Marvel ironman=gson.fromJson(Iron,Marvel.class);
+            for (ResultsItem result : ironman.getData().getResults()) {
+                result.getSeries().getItems().forEach(a-> System.out.println(a.getName()));
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void ejemploEscribirXSTREAM() {
