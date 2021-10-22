@@ -1,10 +1,6 @@
 package Main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,6 +26,7 @@ import dao.MedicamentoAleatorio;
 import modelo.Farmacia;
 import modelo.Medicamento;
 import modelo.Tiempo.Tiempo;
+import modelo.TiempoXml.Weatherdata;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -88,14 +85,27 @@ class Main {
         //ejemploEscribirXSTREAM();
         //ejemploLeerXSTREAM();
         try {
+            //Ejercicio 7
             OkHttpClient okHttp = new OkHttpClient();
             Request request = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&appid=479092b77bcf850403cb2aeb1a302425").build();
+            Request request2 = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&mode=xml&appid=479092b77bcf850403cb2aeb1a302425").build();
             Response response = okHttp.newCall(request).execute();
+            Response response2 = okHttp.newCall(request2).execute();
+            InputStream inputStream = response.body().byteStream();
+            JAXBContext jaxbContext = JAXBContext.newInstance(Weatherdata.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            Weatherdata weatherdata = (Weatherdata) unmarshaller.unmarshal(inputStream);
+            System.out.println(weatherdata.toString().replace("null", ""));
+            //Ejerecicio8
             String info = response.body().string();
             Gson gson = new Gson();
             Tiempo t1 = gson.fromJson(info, Tiempo.class);
             System.out.println(t1.toString());
+            //Ejercicio9
+
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
 //        FarmaciaXSTREAM fx=new FarmaciaXSTREAM();
