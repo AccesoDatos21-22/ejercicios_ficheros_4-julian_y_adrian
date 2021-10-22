@@ -23,11 +23,16 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.google.gson.Gson;
 import dao.FarmaciaDOM;
 import dao.FarmaciaXSTREAM;
 import dao.MedicamentoAleatorio;
 import modelo.Farmacia;
 import modelo.Medicamento;
+import modelo.Tiempo.Tiempo;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,24 +59,24 @@ class Main {
     private static final String DOM1_XML_FILE = "xml/MedicamentosDOM.xml";
 
     public static void main(String[] args) {
-        Medicamento m1 = new Medicamento("pepe", 20.0, 211202, 10, 20);
-        Medicamento m2 = new Medicamento("dfrf", 100, 211202, 10, 20);
-        MedicamentoAleatorio aleatorio = new MedicamentoAleatorio();
-        aleatorio.guardar(m1);
-        aleatorio.guardar(m2);
-        aleatorio.leerTodos().forEach(System.out::println);
-        aleatorio.borrar(m1);
-        System.out.println(".........................");
-        aleatorio.leerTodos().forEach(System.out::println);
-        System.out.println(",,,,,,,,,,,,,,,");
-        try {
-            System.out.println(aleatorio.buscar("dfrf").toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Farmacia f1= new Farmacia();
-        f1.guardar(m1);
-        f1.guardar(m2);
+//        Medicamento m1 = new Medicamento("pepe", 20.0, 211202, 10, 20);
+//        Medicamento m2 = new Medicamento("dfrf", 100, 211202, 10, 20);
+//        MedicamentoAleatorio aleatorio = new MedicamentoAleatorio();
+//        aleatorio.guardar(m1);
+//        aleatorio.guardar(m2);
+//        aleatorio.leerTodos().forEach(System.out::println);
+//        aleatorio.borrar(m1);
+//        System.out.println(".........................");
+//        aleatorio.leerTodos().forEach(System.out::println);
+//        System.out.println(",,,,,,,,,,,,,,,");
+//        try {
+//            System.out.println(aleatorio.buscar("dfrf").toString());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Farmacia f1= new Farmacia();
+//        f1.guardar(m1);
+//        f1.guardar(m2);
         //FarmaciaDOM fdom=new FarmaciaDOM();
         //fdom.guardar(f1);
         //fdom.leer(Path.of(DOM1_XML_FILE));
@@ -82,9 +87,20 @@ class Main {
         //ejemploLeerDOM();
         //ejemploEscribirXSTREAM();
         //ejemploLeerXSTREAM();
-        FarmaciaXSTREAM fx=new FarmaciaXSTREAM();
-        fx.guardar(f1);
-        fx.leerMedicamento(XSTREAM2_XML_FILE);
+        try {
+            OkHttpClient okHttp = new OkHttpClient();
+            Request request = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&appid=479092b77bcf850403cb2aeb1a302425").build();
+            Response response = okHttp.newCall(request).execute();
+            String info = response.body().string();
+            Gson gson = new Gson();
+            Tiempo t1 = gson.fromJson(info, Tiempo.class);
+            System.out.println(t1.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        FarmaciaXSTREAM fx=new FarmaciaXSTREAM();
+//        fx.guardar(f1);
+//        fx.leerMedicamento(XSTREAM2_XML_FILE);
     }
 
     private static void ejemploEscribirXSTREAM() {

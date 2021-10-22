@@ -14,9 +14,13 @@ plugins {
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13'
 
