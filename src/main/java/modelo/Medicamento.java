@@ -1,5 +1,6 @@
 package modelo;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -25,9 +26,7 @@ public class Medicamento {
     }
 
     public Medicamento(String nombre, double precio, int stock, int stockMaximo, int stockMinimo, int cod, int codProveedor) {
-        sb = new StringBuilder(nombre);
-        sb.setLength(50);
-        this.nombre = sb.toString();
+        this.nombre = nombre;
         this.precio = precio;
         this.cod = cod;
         this.stock = stock;
@@ -37,10 +36,7 @@ public class Medicamento {
     }
 
     public Medicamento(String nombre, double precio, int stock, int stockMaximo, int stockMinimo) {
-        super();
-        sb = new StringBuilder(nombre);
-        sb.setLength(50);
-        this.nombre = sb.toString();
+        this.nombre = nombre;
         this.precio = precio;
         this.cod = cont;
         this.stock = stock;
@@ -55,7 +51,9 @@ public class Medicamento {
     }
 
     public String getNombre() {
-        return nombre;
+        sb = new StringBuilder(this.nombre);
+        sb.setLength(50);
+        return sb.toString();
     }
 
     public void setNombre(String nombre) {

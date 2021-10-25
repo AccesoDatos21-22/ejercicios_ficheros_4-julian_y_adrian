@@ -30,7 +30,7 @@ public class ListItem{
 	private int dt;
 
 	@SerializedName("pop")
-	private int pop;
+	private double pop;
 
 	@SerializedName("sunset")
 	private int sunset;
@@ -76,7 +76,7 @@ public class ListItem{
 		return dt;
 	}
 
-	public int getPop(){
+	public double getPop(){
 		return pop;
 	}
 

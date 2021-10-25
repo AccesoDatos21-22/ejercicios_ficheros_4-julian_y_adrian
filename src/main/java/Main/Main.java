@@ -1,52 +1,39 @@
 package Main;
 
+import com.google.gson.Gson;
+import com.thoughtworks.xstream.XStream;
+import dao.FarmaciaDOM;
+import dao.FarmaciaXSTREAM;
+import dao.JCCPokemonJAXB;
+import dao.MedicamentoAleatorio;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+import modelo.*;
+import modelo.Marvel.Marvel;
+import modelo.Marvel.ResultsItem;
+import modelo.Tiempo.Tiempo;
+import modelo.TiempoXml.Weatherdata;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import com.google.gson.Gson;
-import dao.FarmaciaDOM;
-import dao.MedicamentoAleatorio;
-import modelo.Farmacia;
-import modelo.Marvel.Marvel;
-import modelo.Marvel.ResultsItem;
-import modelo.Medicamento;
-import modelo.Tiempo.Tiempo;
-import modelo.TiempoXml.Weatherdata;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
-
-import com.thoughtworks.xstream.XStream;
-
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
-import modelo.Empleado;
-import modelo.Empresa;
+import java.util.List;
 
 class Main {
 
@@ -57,51 +44,82 @@ class Main {
     private static final String DOM1_XML_FILE = "xml/MedicamentosDOM.xml";
 
     public static void main(String[] args) {
-//        pruebaEjercicio2();
-        //Ejercicio3 ir a dao.MecicamentoAleatorioTest
-//        pruebaEjercicios3();
-//        leerMarvel();
-//        try {
-//            //Ejercicio 7
-//            OkHttpClient okHttp = new OkHttpClient();
-//            Request request = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&appid=479092b77bcf850403cb2aeb1a302425").build();
-//            Request request2 = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&mode=xml&appid=479092b77bcf850403cb2aeb1a302425").build();
-//            Response response = okHttp.newCall(request).execute();
-//            Response response2 = okHttp.newCall(request2).execute();
-//            InputStream inputStream = response2.body().byteStream();
-//            JAXBContext jaxbContext = JAXBContext.newInstance(Weatherdata.class);
-//            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-//            Weatherdata weatherdata = (Weatherdata) unmarshaller.unmarshal(inputStream);
-//            System.out.println(weatherdata.toString().replace("null", ""));
-//            //Ejerecicio8
-//            String info = response.body().string();
-//            Gson gson = new Gson();
-//            Tiempo t1 = gson.fromJson(info, Tiempo.class);
-//            System.out.println(t1.toString());
-//            //Ejercicio9
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (JAXBException e) {
-//            e.printStackTrace();
-//        }
-//        FarmaciaXSTREAM fx=new FarmaciaXSTREAM();
-//        fx.guardar(f1);
-//        fx.leerMedicamento(XSTREAM2_XML_FILE);
+        pruebaEjercicio2();
+//        Ejercicio3 ir a dao.MecicamentoAleatorioTest
+        pruebaEjercicios4();
+        pruebaEjercicios5();
+        pruebaEjercicios6();
+        pruebaEjercicios7();
+        pruebaEjercicios8();
+        pruebaEjercicio9();
+
     }
 
-    private static void pruebaEjercicios3() {
-        Farmacia f1= new Farmacia();
+    private static void pruebaEjercicios8() {
+        try {
+            OkHttpClient okHttp = new OkHttpClient();
+            Request request = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&appid=479092b77bcf850403cb2aeb1a302425").build();
+            Response response = okHttp.newCall(request).execute();
+            String info = response.body().string();
+            Gson gson = new Gson();
+            Tiempo t1 = gson.fromJson(info, Tiempo.class);
+            System.out.println(t1.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void pruebaEjercicios7() {
+        try {
+            OkHttpClient okHttp = new OkHttpClient();
+            Request request = new Request.Builder().url("https://api.openweathermap.org/data/2.5/forecast/daily?q=Galapagar&units=metric&mode=xml&appid=479092b77bcf850403cb2aeb1a302425").build();
+            Response response = okHttp.newCall(request).execute();
+            InputStream inputStream = response.body().byteStream();
+            JAXBContext jaxbContext = JAXBContext.newInstance(Weatherdata.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            Weatherdata weatherdata = (Weatherdata) unmarshaller.unmarshal(inputStream);
+            System.out.println(weatherdata.getLocation().toString().replace("null", ""));
+            weatherdata.getForecast().getTime().forEach(System.out::println);
+            System.out.println(weatherdata.getSun().toString().replace("null", ""));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void pruebaEjercicios6() {
+        Farmacia f1 = new Farmacia();
         Medicamento m1 = new Medicamento("pepe", 20.0, 211202, 10, 20);
         Medicamento m2 = new Medicamento("dfrf", 100, 211202, 10, 20);
         f1.guardar(m1);
         f1.guardar(m2);
-        FarmaciaDOM fdom=new FarmaciaDOM();
+        FarmaciaXSTREAM fx = new FarmaciaXSTREAM();
+        fx.guardar(f1);
+        fx.leerMedicamento(XSTREAM2_XML_FILE);
+    }
+
+    private static void pruebaEjercicios4() {
+        Farmacia f1 = new Farmacia();
+        Medicamento m1 = new Medicamento("pepe", 20.0, 211202, 10, 20);
+        Medicamento m2 = new Medicamento("dfrf", 100, 211202, 10, 20);
+        f1.guardar(m1);
+        f1.guardar(m2);
+        FarmaciaDOM fdom = new FarmaciaDOM();
         fdom.guardar(f1);
         fdom.leer(Path.of(DOM1_XML_FILE));
     }
 
-    private static void pruebaEjercicio2(){
+    private static void pruebaEjercicios5() {
+        List<Pokemon> x = new ArrayList<>();
+        JCCPokemon jccPokemon = new JCCPokemon();
+        JCCPokemonJAXB j1 = new JCCPokemonJAXB();
+        j1.guardar(jccPokemon);
+        JCCPokemon jccPokemon2 = j1.leer();
+    }
+
+    private static void pruebaEjercicio2() {
         Medicamento m1 = new Medicamento("pepe", 20.0, 211202, 10, 20);
         Medicamento m2 = new Medicamento("dfrf", 100, 211202, 10, 20);
         MedicamentoAleatorio aleatorio = new MedicamentoAleatorio();
@@ -109,16 +127,17 @@ class Main {
         aleatorio.guardar(m2);
         aleatorio.leerTodos().forEach(System.out::println);
     }
-    private static void leerMarvel() {
+
+    private static void pruebaEjercicio9() {
         try {
             OkHttpClient okHttpClient = new OkHttpClient();
             Request request = new Request.Builder().url("https://gateway.marvel.com/v1/public/characters?ts=1&name=Iron%20Man&apikey=4ad7fd50f7f028b3f6f75045c3f53e60&hash=e8898161bd736e5c8b517cbbdf5267af").build();
             Response marvel = okHttpClient.newCall(request).execute();
             String Iron = marvel.body().string();
-            Gson gson=new Gson();
-            Marvel ironman=gson.fromJson(Iron,Marvel.class);
+            Gson gson = new Gson();
+            Marvel ironman = gson.fromJson(Iron, Marvel.class);
             for (ResultsItem result : ironman.getData().getResults()) {
-                result.getSeries().getItems().forEach(a-> System.out.println(a.getName()));
+                result.getSeries().getItems().forEach(a -> System.out.println(a.getName()));
             }
 
 
