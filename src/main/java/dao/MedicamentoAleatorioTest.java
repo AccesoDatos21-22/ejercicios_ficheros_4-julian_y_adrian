@@ -11,8 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MedicamentoAleatorioTest {
     final String FICHEROTEST = "Jtest";
@@ -61,8 +63,10 @@ class MedicamentoAleatorioTest {
     void buscar() throws IOException {
         try {
             Files.createFile(Path.of(FICHEROTEST));
-            var test = buscarTest("Jtest");
-            assertEquals("Jtest", test.getNombre());
+            ArrayList<Medicamento> testMedicamento = new ArrayList();
+            testMedicamento.add(medicamento);
+            var test = buscarTest("Jtest",testMedicamento);
+            assertEquals("Jtest", test.getNombre().replaceAll("\u0000", ""));
             Files.deleteIfExists(Path.of(FICHEROTEST));
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,6 +76,10 @@ class MedicamentoAleatorioTest {
 
     @Test
     void actualizar() {
+        actualizarTest(medicamento);
+        assertFalse(medicamento.getNombre().equals("Jtest"));
+        assertFalse(medicamento.getStock()==20);
+
     }
 
     @Test
@@ -151,13 +159,25 @@ class MedicamentoAleatorioTest {
         return true;
     }
 
-    public Medicamento buscarTest(String nombre) throws Exception {
-        var medicamentos = leerTodosTest();
+    public Medicamento buscarTest(String nombre,ArrayList<Medicamento> m) throws Exception {
+        var medicamentos = m;
         medicamentos.removeIf(a -> !a.getNombre().trim().replaceAll("\u0000", "").equals(nombre));
         if (medicamentos.size() > 0) {
             return medicamentos.get(0);
         } else {
             throw new Exception("No existe el medicamento");
         }
+    }
+    public boolean actualizarTest(Medicamento medicamento) {
+        var x = "prueba";
+        medicamento.setNombre(x);
+        String v = "8";
+        Pattern numeros = Pattern.compile("[0-9]");
+        if (!numeros.matcher(v).find()) {
+            medicamento.setStock(0);
+        } else {
+            medicamento.setStock(Integer.parseInt(v));
+        }
+        return false;
     }
 }

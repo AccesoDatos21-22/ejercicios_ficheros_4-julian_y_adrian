@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class MedicamentoAleatorio implements MedicamentoDAO {
 
@@ -47,7 +49,18 @@ public class MedicamentoAleatorio implements MedicamentoDAO {
 
     @Override
     public boolean actualizar(Medicamento medicamento) {
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduzca el nuevo nombre del medicamento");
+        medicamento.setNombre(sc.nextLine());
+        System.out.println("Introduzca el stock actual");
+        String v = sc.nextLine();
+        Pattern numeros = Pattern.compile("[0-9]");
+        if (!numeros.matcher(v).find()) {
+            medicamento.setStock(0);
+        } else {
+            medicamento.setStock(Integer.parseInt(v));
+        }
+        sc.close();
         return false;
     }
 
