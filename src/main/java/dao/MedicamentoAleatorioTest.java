@@ -58,7 +58,16 @@ class MedicamentoAleatorioTest {
     }
 
     @Test
-    void buscar() {
+    void buscar() throws IOException {
+        try {
+            Files.createFile(Path.of(FICHEROTEST));
+            var test = buscarTest("Jtest");
+            assertEquals("Jtest", test.getNombre());
+            Files.deleteIfExists(Path.of(FICHEROTEST));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Files.deleteIfExists(Path.of(FICHEROTEST));
+        }
     }
 
     @Test
@@ -129,7 +138,7 @@ class MedicamentoAleatorioTest {
 
     private boolean borrarTest(Medicamento medicamento2) {
         var medicamentos = leerTodosTest();
-        medicamentos.removeIf(a -> a.getCod()==(medicamento2.getCod()));
+        medicamentos.removeIf(a -> a.getCod() == (medicamento2.getCod()));
         try {
             Files.deleteIfExists(Path.of(FICHEROTEST));
             Files.createFile(Path.of(FICHEROTEST));
@@ -140,5 +149,15 @@ class MedicamentoAleatorioTest {
             medicamentoAleatorio.guardar(medicamento1);
         }
         return true;
+    }
+
+    public Medicamento buscarTest(String nombre) throws Exception {
+        var medicamentos = leerTodosTest();
+        medicamentos.removeIf(a -> !a.getNombre().trim().replaceAll("\u0000", "").equals(nombre));
+        if (medicamentos.size() > 0) {
+            return medicamentos.get(0);
+        } else {
+            throw new Exception("No existe el medicamento");
+        }
     }
 }

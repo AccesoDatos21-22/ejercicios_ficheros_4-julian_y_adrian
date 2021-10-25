@@ -34,7 +34,7 @@ public class FarmaciaDOM{
 		DocumentBuilder builder;
 		try {
 			builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new File(DOM1_XML_FILE));
+			Document document = builder.parse(farmaciaXML.toFile());
 			document.getDocumentElement().normalize();
 			// Obtenemos la lista de nodos con nombre empleado de todo el documento
 			NodeList medicamento = document.getElementsByTagName("medicamento");
@@ -110,12 +110,6 @@ public class FarmaciaDOM{
 				transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 				transformer.transform(source, result);
-				// Mostramos el documento por pantalla especificando el canal de salida el
-				// System.out
-				Result console = new StreamResult(System.out);
-
-				transformer.transform(source, console);
-
 			}
 		} catch (ParserConfigurationException | TransformerConfigurationException e) {
 			e.printStackTrace();
